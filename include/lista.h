@@ -10,5 +10,7 @@ void listar_todospacientes(Paciente* p);
 Paciente* listapaciente_cria(Paciente* lista);
 Paciente* remover_paciente(Paciente* lista);
 void listapaciente_vazia(Paciente* lista);
+Paciente* liberar_lista(Paciente* p);
+
 
 #endif

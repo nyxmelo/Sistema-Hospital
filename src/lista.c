@@ -3,12 +3,6 @@
 #include <string.h> 
 #include "../include/lista.h"
 
-Paciente* listapaciente_cria(Paciente* lista){
-    if(lista != NULL){
-        return lista;
-    }
-        return NULL;
-}
 
 Paciente* inserir_paciente(Paciente* p){
     Paciente* q = p;
@@ -19,7 +13,7 @@ Paciente* inserir_paciente(Paciente* p){
     }
 
     int id;
-    char buffer_nome[100]; // Espaço temporário para ler o teclado
+    char buffer_nome[100];
 
     
     printf("Digite o id do paciente: \n");
@@ -34,10 +28,10 @@ Paciente* inserir_paciente(Paciente* p){
         q = q->prox;
     }
     printf("Digite o nome do paciente: \n");
-    scanf("%s", buffer_nome); // Lê o nome para o buffer
+    scanf(" %[^\n]", buffer_nome); 
 
     novo->id = id;
-    // Aloca exatamente o tamanho do nome digitado
+    
     novo->nome = (char*) malloc(strlen(buffer_nome) + 1);
     
     if (novo->nome == NULL){
@@ -48,9 +42,9 @@ Paciente* inserir_paciente(Paciente* p){
 
     strcpy(novo->nome, buffer_nome);
     
-    // Ajuste da Lista Duplamente Encadeada
+    
     novo->prox = p;
-    novo->ant = NULL; // Novo nó sempre será o primeiro, então 'ant' é NULL
+    novo->ant = NULL; 
 
     if(p != NULL){
        p->ant = novo; 
@@ -60,14 +54,14 @@ Paciente* inserir_paciente(Paciente* p){
 }
 
 Paciente* pesquisar_paciente(Paciente* p, int id){
-    Paciente* q = p; // COMEÇA do início da lista
+    Paciente* q = p;
 
     if (q == NULL) {
         printf("Nenhum paciente registrado\n");
         return NULL;
     } 
 
-    while(q != NULL){ // Percorre até o fim da lista
+    while(q != NULL){
         if(q->id == id){
             printf("Paciente encontrado: %s\n", q->nome);
             return q;
@@ -125,8 +119,8 @@ Paciente* remover_paciente(Paciente* p){
     }
 
         printf("Paciente '%s' foi removido.", q->nome);
-        free(q);
         free(q->nome);
+        free(q);
         return p;
     }
 
@@ -135,4 +129,16 @@ void listapaciente_vazia(Paciente* lista){
     if(lista == NULL){
         printf("Lista vazia!!!");
     }
+}
+
+Paciente* liberar_lista(Paciente* p){
+    Paciente* q = p;
+    while (q != NULL) {
+        p = q;
+        q = q->prox;
+        free(p);
+        free(p->nome);
+    }
+    return NULL;
+    
 }
